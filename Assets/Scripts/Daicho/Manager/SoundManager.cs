@@ -7,7 +7,7 @@ public class SoundManager : MonoBehaviour
 #region BGM
     public enum BgmName    //BGMの種類
     {
-        //以後追加
+        //必要に応じて追加して
         test1 = 0,
         test2,
         Silent = 999,
@@ -97,6 +97,7 @@ public class SoundManager : MonoBehaviour
 
     public enum SeName 
     {
+        //必要に応じて追加して
         test = 0,
         test2
     }

@@ -7,6 +7,9 @@ public class Test : MonoBehaviour
     void Update() 
     {
         if (Input.GetKeyDown(KeyCode.Space))
+        {
             GeneralManager.Instance.SoundM.PlaySE(SoundManager.SeName.test);
+            Debug.Log("‰¹ƒeƒXƒg");
+        }
     }
 }
