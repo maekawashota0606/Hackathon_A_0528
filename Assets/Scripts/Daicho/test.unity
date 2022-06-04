@@ -213,11 +213,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BgmClips:
   - Name: 0
-    Volume: 0
-    BgmData: {fileID: 0}
+    Volume: 0.5
+    BgmData: {fileID: 8300000, guid: ca4a4b9ce64797147ac8b949a80da5a8, type: 3}
+  - Name: 1
+    Volume: 0.5
+    BgmData: {fileID: 8300000, guid: 8dd72614bb8bca741b12881601528407, type: 3}
   SeClips:
   - Name: 0
-    Volume: 1
+    Volume: 0.5
     SeData: {fileID: 8300000, guid: ca4a4b9ce64797147ac8b949a80da5a8, type: 3}
   - Name: 1
     Volume: 1

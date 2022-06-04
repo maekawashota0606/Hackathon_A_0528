@@ -11,5 +11,20 @@ public class Test : MonoBehaviour
             GeneralManager.Instance.SoundM.PlaySE(SoundManager.SeName.test);
             Debug.Log("音テスト");
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            GeneralManager.Instance.SoundM.PlayBGM(SoundManager.BgmName.test1);
+            Debug.Log("音テスト");
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            GeneralManager.Instance.SoundM.ResumeBGM();
+            Debug.Log("音テスト");
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            GeneralManager.Instance.SoundM.PlayBGM(SoundManager.BgmName.test2);
+            Debug.Log("音テスト");
+        }
     }
 }

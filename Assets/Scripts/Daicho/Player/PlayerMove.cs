@@ -5,11 +5,11 @@ public class PlayerMove : MonoBehaviour
     [SerializeField,Header("開始座標")]
     private Vector2 _startPlayerPos;                //開始時の座標
     private PlayerStatus _playerStatus;
-    private Vector2 _playerPos;
-    public Vector3 _nextPos;
+    private Vector2 _playerPos;                     //現在の位置
+    private Vector3 _nextPos;                       //次の移動先を確保するやつ
     private TestMap _testMap;
     [SerializeField]
-    private bool _isMoving = false;
+    private bool _isMoving = false;                 //移動中は操作を受け付けないようにするやつ
     private void Awake()
     {
         _playerStatus = GetComponent<PlayerStatus>();
