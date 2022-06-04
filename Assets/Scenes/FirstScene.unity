@@ -232,6 +232,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ed14639873df024aa34132f76866561, type: 3}
+--- !u!1 &574179178 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2222176262386165520, guid: 5ed14639873df024aa34132f76866561, type: 3}
+  m_PrefabInstance: {fileID: 574179177}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &574179179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574179178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 931ad4f60d345114686375255d2016ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFadeIn: 0
+  isFadeOut: 0
+  alpha: 0
+  fadeSpeed: 0.2
 --- !u!1 &1036023138
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,6 +389,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1036023140}
     m_Modifications:
+    - target: {fileID: 5954897271927238552, guid: 3ae355f4127ca45488ef041a985732a2, type: 3}
+      propertyPath: fadeCanvas
+      value: 
+      objectReference: {fileID: 574179179}
     - target: {fileID: 5954897271927238553, guid: 3ae355f4127ca45488ef041a985732a2, type: 3}
       propertyPath: m_Name
       value: SceneManager
