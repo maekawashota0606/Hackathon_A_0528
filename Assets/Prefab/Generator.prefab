@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6262162222114425523
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6262162222114425524}
+  - component: {fileID: 6262162222114425525}
+  m_Layer: 0
+  m_Name: Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6262162222114425524
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6262162222114425523}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6262162222114425525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6262162222114425523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1513e7e7a1f9540969ed96d593aa6124, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bluePrints:
+  - BluePrint: {fileID: 11400000, guid: 4dcbc3b4d2b3c4beeb5bea52285e145f, type: 2}
+    Weight: 1090
+  - BluePrint: {fileID: 11400000, guid: 4226daaf7f6d2447db027a1e35d3a290, type: 2}
+    Weight: 20
+  - BluePrint: {fileID: 11400000, guid: d2747c844f2584034b1c502479fc5a43, type: 2}
+    Weight: 20
+  - BluePrint: {fileID: 11400000, guid: c47355a2a4c4a45bd86d7a07e58c985d, type: 2}
+    Weight: 20
+  - BluePrint: {fileID: 11400000, guid: 70e6afa27d3484d2eba8047fb6ed2986, type: 2}
+    Weight: 20
+  - BluePrint: {fileID: 11400000, guid: ea6380f047335469f85429bb452bc21f, type: 2}
+    Weight: 20
+  - BluePrint: {fileID: 11400000, guid: 4ba6ed423ddee420fa689186fdaabc54, type: 2}
+    Weight: 30
+  - BluePrint: {fileID: 11400000, guid: f828fe5f9fe204db59284632746acb18, type: 2}
+    Weight: 40
+  - BluePrint: {fileID: 11400000, guid: 7d97e6a0b88fb42ec97fb4d36c64f6e0, type: 2}
+    Weight: 5
+  - BluePrint: {fileID: 11400000, guid: 0a38f5ec5ec4e49c484f14aac0798473, type: 2}
+    Weight: 5
+  - BluePrint: {fileID: 11400000, guid: a7563f1f16a4a4cac9010cd6933a7d3e, type: 2}
+    Weight: 10
