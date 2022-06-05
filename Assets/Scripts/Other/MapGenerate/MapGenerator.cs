@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace RandomDungeonWithBluePrint
 {
-    public class RandomMapTest : MonoBehaviour
+    public class MapGenerator : SingletonMonoBehaviour<MapGenerator>
     {
         [Serializable]
         public class BluePrintWithWeight
@@ -15,22 +14,18 @@ namespace RandomDungeonWithBluePrint
             public int Weight = default;
         }
 
-        [SerializeField] private int seed = default;
-        [SerializeField] private Button generateButton = default;
-        [SerializeField] private FieldView fieldView = default;
         [SerializeField] private BluePrintWithWeight[] bluePrints = default;
 
-        private void Awake()
+        public void GenerateMap(int seed)
         {
             Random.InitState(seed);
-            generateButton.onClick.AddListener(() => Create(Raffle()));
-            generateButton.onClick.Invoke();
+            Create(Raffle());
         }
 
         private void Create(BluePrintWithWeight bluePrint)
         {
             var field = FieldBuilder.Build(bluePrint.BluePrint);
-            fieldView.ShowField(field);
+            Map.Instance.ShowField(field);
         }
 
         private BluePrintWithWeight Raffle()
