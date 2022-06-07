@@ -6,7 +6,7 @@ public class DontDestroy : MonoBehaviour
 {
     void Start()
     {
-        SceneController.Instance.sceneChange("FirstScene");
+        //SceneController.Instance.sceneChange("FirstScene");
         DontDestroyOnLoad(gameObject);
     }
 }

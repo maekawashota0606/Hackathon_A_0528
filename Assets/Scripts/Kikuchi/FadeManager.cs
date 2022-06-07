@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;//追加
 
-public class FadeManager : MonoBehaviour
+public class FadeManager : SingletonMonoBehaviour<FadeManager>
 {
-    public static bool isFadeInstance = false;//Canvas召喚フラグ
+    //public static bool isFadeInstance = false;//Canvas召喚フラグ
 
     public bool isFadeIn = false;//フェードインするフラグ
     public bool isFadeOut = false;//フェードアウトするフラグ
@@ -15,20 +15,21 @@ public class FadeManager : MonoBehaviour
 
     void Start()
     {
-        if (!isFadeInstance)//起動時
-        {
+        //if (!isFadeInstance)//起動時
+        //{
             //DontDestroyOnLoad(this);
-            isFadeInstance = true;
-        }
-        else//起動時以外は重複しないようにする
-        {
-            Destroy(this);
-        }
+            //isFadeInstance = true;
+        //}
+        //else//起動時以外は重複しないようにする
+        //{
+           // Destroy(this);
+        //}
     }
     void Update()
     {
         if (isFadeIn)
         {
+            //Debug.Log("Fadein");
             alpha -= Time.deltaTime / fadeSpeed;
             if (alpha <= 0.0f)//透明になったら、フェードインを終了
             {
@@ -39,6 +40,7 @@ public class FadeManager : MonoBehaviour
         }
         else if (isFadeOut)
         {
+            //Debug.Log("Fadeout");
             alpha += Time.deltaTime / fadeSpeed;
             if (alpha >= 1.0f)//真っ黒になったら、フェードアウトを終了
             {
@@ -49,13 +51,14 @@ public class FadeManager : MonoBehaviour
         }
     }
 
-    public void fadeIn()
+    //ここの下を呼べばフェードイン、アウトの実装可能
+    public void fadeIn() // 画面を明るくする
     {
         isFadeIn = true;
         isFadeOut = false;
     }
 
-    public void fadeOut()
+    public void fadeOut() // 画面を暗くする
     {
         isFadeOut = true;
         isFadeIn = false;
