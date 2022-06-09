@@ -14,7 +14,8 @@ public class TestPlayerController : MonoBehaviour
     [SerializeField]
     private int PlayerPositionY;
 
-    private bool DontWalkFlag = false;
+    private bool _dontWalkFlag = false;
+    public bool PlayerMoveFlag = false;
 
     //プレイヤーの位置を把握するために必要なもの
     [SerializeField]
@@ -36,32 +37,30 @@ public class TestPlayerController : MonoBehaviour
         PlayerDisplay();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        PlayerWalk();
-    }
-
     #region 移動処置
     public void PlayerWalk()
     {
     Vector2 _pos = _playerObject.transform.position;
-    
+
     if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
     {
         SetPlayerPosition(PlayerPositionX+1,PlayerPositionY);
+        PlayerMoveFlag = true;
     }
     if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
     {
         SetPlayerPosition(PlayerPositionX-1,PlayerPositionY);
+        PlayerMoveFlag = true;
     }
     if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
     {
         SetPlayerPosition(PlayerPositionX,PlayerPositionY-1);
+        PlayerMoveFlag = true;
     }
     if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
     {
         SetPlayerPosition(PlayerPositionX,PlayerPositionY+1);
+        PlayerMoveFlag = true;
     }
     }
     #endregion
@@ -75,14 +74,14 @@ public class TestPlayerController : MonoBehaviour
         {
             case 0:
             Debug.Log("先は暗闇だよ");
-            DontWalkFlag=true;
+            _dontWalkFlag=true;
             break;
             case 1:
-            DontWalkFlag=false;
+            _dontWalkFlag=false;
             break;
             case 2:
             Debug.Log("先は壁だよ");
-            DontWalkFlag=true;
+            _dontWalkFlag=true;
             break;
             case 3:
             Debug.Log("先は階段だよ");
@@ -114,7 +113,7 @@ public class TestPlayerController : MonoBehaviour
         //左右は+-1
         //上下は+-10
         PlayerDontWalkRule(x,y);
-        if(DontWalkFlag == false)
+        if(_dontWalkFlag == false)
         {
             _pos.x -= PlayerPositionX - x;
             _pos.y += PlayerPositionY - y;
