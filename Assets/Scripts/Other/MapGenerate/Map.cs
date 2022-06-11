@@ -7,9 +7,7 @@ namespace RandomDungeonWithBluePrint
     {
         [SerializeField] private Tilemap tilemap = null;
         [SerializeField] private Tile[] tiles = new Tile[(int)TileType.Size];
-        private const int WIDTH = 99;
-        private const int HEIGHT = 99;
-        private TileType[,] mapData = new TileType[WIDTH, HEIGHT];
+        private TileType[,] mapData = new TileType[GameDirector.WIDTH, GameDirector.HEIGHT];
 
         public enum TileType
         {
@@ -20,11 +18,18 @@ namespace RandomDungeonWithBluePrint
             Size
         }
 
+        private void InitMapData()
+        {
+            for (int x = 0; x < GameDirector.WIDTH; x++)
+                for (int y = 0; y < GameDirector.HEIGHT; y++)
+                    mapData[x, y] = TileType.None;
+        }
 
-        // 外部からセットすることはないかも
         public void SetMapData(TileType type, Vector2Int pos)
         {
             mapData[pos.x, pos.y] = type;
+            Tile tile = tiles[(int)type];
+            tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), tile);
         }
 
 
@@ -35,7 +40,13 @@ namespace RandomDungeonWithBluePrint
         /// <returns></returns>
         public TileType GetTileTipe(Vector2Int pos)
         {
-            return mapData[pos.x, pos.y];
+            if (pos.x < 0 || pos.y <  0 || GameDirector.WIDTH < pos.x || GameDirector.HEIGHT < pos.y)
+            {
+                Debug.LogError("Not Found");
+                return TileType.None;
+            }
+            else
+                return mapData[pos.x, pos.y];
         }
 
 
@@ -46,12 +57,14 @@ namespace RandomDungeonWithBluePrint
         public void ShowField(Field field)
         {
             tilemap.ClearAllTiles();
+            InitMapData();
 
             for (int x = 0; x < field.Grid.Size.x; x++)
             {
                 for (int y = 0; y < field.Grid.Size.y; y++)
                 {
                     mapData[x, y] = (TileType)field.Grid[x, y];
+                    //Debug.Log($"{x}, {y}, {mapData[x, y]}");
                     Tile tile = tiles[(int)mapData[x, y]];
                     tilemap.SetTile(new Vector3Int(x, y, 0), tile);
                 }
