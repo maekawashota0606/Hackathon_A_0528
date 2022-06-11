@@ -4,14 +4,48 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour, IActor
 {
-    public void Action()
+    [SerializeField]
+    protected int _maxHP = 60;
+    [SerializeField]
+    protected int _attackRange = 1;
+    [SerializeField]
+    protected int _power = 20;
+    [SerializeField]
+    protected int _speed = 1;
+    protected int _HP = 0;
+
+    public virtual void Action()
     {
         
     }
 
+    public Vector2Int GetMoveDirection(int dir)
+    {
+        Vector2Int movePos = new Vector2Int(0, 0);
+        switch ((IActor.Dir)dir)
+        {
+            case IActor.Dir.Up:
+                movePos = MoveUp();
+                break;
+            case IActor.Dir.Left:
+                movePos = MoveLeft();
+                break;
+            case IActor.Dir.Right:
+                movePos = MoveRight();
+                break;
+            case IActor.Dir.Down:
+                movePos = MoveDown();
+                break;
+            default:
+                break;
+        }
+
+        return movePos;
+    }
+
     public Vector2Int MoveDown()
     {
-        return new Vector2Int(0, 1);
+        return new Vector2Int(0, -1);
     }
 
     public Vector2Int MoveLeft()
@@ -26,6 +60,6 @@ public class Actor : MonoBehaviour, IActor
 
     public Vector2Int MoveUp()
     {
-        return new Vector2Int(0, -1);
+        return new Vector2Int(0, 1);
     }
 }

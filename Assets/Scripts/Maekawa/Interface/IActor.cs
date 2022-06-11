@@ -10,9 +10,11 @@ interface IActor
 
     enum Dir
     {
+        None = -1,
         Up,
         Left,
         Right,
         Down,
+        Size
     };
 }

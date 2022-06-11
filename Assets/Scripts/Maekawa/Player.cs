@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class Player : Actor
 {
-    private const int _MAX_HP = 100;
-    private int _HP = _MAX_HP;
     private IInput _iInput = null;
-    private Vector2Int _playerPos = new Vector2Int(0,0);
+    private Vector2Int _position = new Vector2Int(0,0);
+    private int _level = 1;
+    private int _EXP = 0;
+    private IActor.Dir _lastDirection = IActor.Dir.None;
 
     private void SetProvider(InputProvider inputProvider)
     {
@@ -14,95 +15,176 @@ public class Player : Actor
 
     public void SetPlayerPos(Vector2Int pos)
     {
-        _playerPos = pos;
-        transform.position = new Vector3(GetNegativePlayerPos().x, GetNegativePlayerPos().y, 0);
+        _position = pos;
+        transform.position = new Vector3(GetPlayerPos().x, GetPlayerPos().y, 0);
+        PlayersCamera.Instance.SetPosition(GetPlayerPos());
     }
 
-    public Vector2Int GetPositivePlayerPos()
+    public Vector2Int GetPlayerPos()
     {
-        return _playerPos;
+        return _position;
     }
 
-    public Vector2Int GetNegativePlayerPos()
-    {
-        Vector2Int pos = _playerPos;
-        pos.y *= -1;
-        return pos;
-    }
-
-
-    private void Awake()
+    public void Init()
     {
         SetProvider(new InputProvider());
+        _HP = _maxHP;
     }
 
-    private void Update()
+    public void PlayerUpdate()
     {
+        if (_iInput.GetAction())
+        {
+            if (UseStairs())
+                return;
+            else
+                GetItem();
+        }
+
+        IActor.Dir dir = IActor.Dir.None;
         if (_iInput.GetUp())
+        {
             Debug.Log("Up");
-        if (_iInput.GetLeft())
+            dir = IActor.Dir.Up;
+            _lastDirection = IActor.Dir.Up;
+        }
+        else if (_iInput.GetLeft())
+        {
             Debug.Log("Left");
-        if (_iInput.GetRight())
+            dir = IActor.Dir.Left;
+            _lastDirection = IActor.Dir.Left;
+        }
+        else if (_iInput.GetRight())
+        {
             Debug.Log("Right");
-        if (_iInput.GetDown())
+            dir = IActor.Dir.Right;
+            _lastDirection = IActor.Dir.Right;
+        }
+        else if (_iInput.GetDown())
+        {
             Debug.Log("Down");
+            dir = IActor.Dir.Down;
+            _lastDirection = IActor.Dir.Down;
+        }
+
+        if(dir != IActor.Dir.None)
+        {
+            if(Move(dir))
+            {
+                //
+            }
+        }
+
+
+        if(_iInput.GetAttack())
+        {
+            if(Attack(dir))
+            {
+                //
+            }
+        }
     }
 
-    public void  IAction()
+    public override void  Action()
     {
 
     }
 
     private bool Attack(IActor.Dir dir)
     {
-        Vector2Int move;
+        Vector2Int checkPos = GetPlayerPos();
+        for (int j = 0; j < _attackRange; j++)
+        {
+            checkPos += GetMoveDirection((int)_lastDirection);
 
-        Vector2Int attackPos;
+            Enemy enemy = GameDirector.Instance.GetEnemy(checkPos);
+            if (enemy != null)
+            {
+                enemy.AddDamage(_power);
+                Debug.Log("PlayersAttack");
+                return true;
+            }
+        }
 
-        return true;
+        return false;
+    }
+
+    public void AddDamage(int damage)
+    {
+        _HP -= damage;
+
+        if (_HP < 1)
+        {
+            GameDirector.Instance.GameOver();
+            _HP = 0;
+        }
+
+        UIManager.Instance.SetHPText(_HP, _maxHP);
+    }
+
+    public int GetHP()
+    {
+        return _HP;
+    }
+
+    public int GetMaxHP()
+    {
+        return _maxHP;
+    }
+
+    public void AddEXP(int exp)
+    {
+        _EXP += exp;
+        while(true)
+        {
+            if (100 <= exp)
+            {
+                exp -= 100;
+                LevelUp();
+            }
+            else break;
+        }
+    }
+
+    private void LevelUp()
+    {
+        _level++;
+        UIManager.Instance.SetLevelText(_level);
+    }
+
+    public int GetLevel()
+    {
+        return _level;
     }
 
     private bool Move(IActor.Dir dir)
     {
-        Vector2Int movedPos = GetPositivePlayerPos();
-        switch (dir)
-        {
-            case IActor.Dir.Up:
-                movedPos += MoveUp();
-                break;
-            case IActor.Dir.Left:
-                movedPos += MoveLeft();
-                break;
-            case IActor.Dir.Right:
-                movedPos += MoveRight();
-                break;
-            case IActor.Dir.Down:
-                movedPos += MoveDown();
-                break;
-            default:
-                Debug.LogError("error");
-                break;
-        }
+        Vector2Int movedPos = GetPlayerPos();
+        movedPos += GetMoveDirection((int)dir);
 
-        if (RandomDungeonWithBluePrint.Map.Instance.GetTileTipe(movedPos) == RandomDungeonWithBluePrint.Map.TileType.Floor)
+
+        if (GameDirector.Instance.IshitWall(movedPos) || GameDirector.Instance.IsHitEnemies(movedPos))
+            return false;
+        else
         {
-            //
             SetPlayerPos(movedPos);
+            return true;
+        }
+    }
+
+    private bool UseStairs()
+    {
+        if (RandomDungeonWithBluePrint.Map.Instance.GetTileTipe(GetPlayerPos()) == RandomDungeonWithBluePrint.Map.TileType.Stairs)
+        {
+            GameDirector.Instance.NextFloor();
             return true;
         }
         else
             return false;
     }
 
-    private bool UseStairs()
+    private void GetItem()
     {
-        if (RandomDungeonWithBluePrint.Map.Instance.GetTileTipe(GetPositivePlayerPos()) == RandomDungeonWithBluePrint.Map.TileType.Stairs)
-        {
-            // 
-            return true;
-        }
-        else
-            return false;
 
     }
 }

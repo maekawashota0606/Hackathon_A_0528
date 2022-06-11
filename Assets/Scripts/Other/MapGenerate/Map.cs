@@ -18,13 +18,18 @@ namespace RandomDungeonWithBluePrint
             Size
         }
 
+        private void InitMapData()
+        {
+            for (int x = 0; x < GameDirector.WIDTH; x++)
+                for (int y = 0; y < GameDirector.HEIGHT; y++)
+                    mapData[x, y] = TileType.None;
+        }
 
-        // 外部からセットすることはないかも
         public void SetMapData(TileType type, Vector2Int pos)
         {
             mapData[pos.x, pos.y] = type;
             Tile tile = tiles[(int)type];
-            tilemap.SetTile(new Vector3Int(pos.x, -pos.y, 0), tile);
+            tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), tile);
         }
 
 
@@ -52,14 +57,16 @@ namespace RandomDungeonWithBluePrint
         public void ShowField(Field field)
         {
             tilemap.ClearAllTiles();
+            InitMapData();
 
             for (int x = 0; x < field.Grid.Size.x; x++)
             {
                 for (int y = 0; y < field.Grid.Size.y; y++)
                 {
                     mapData[x, y] = (TileType)field.Grid[x, y];
+                    //Debug.Log($"{x}, {y}, {mapData[x, y]}");
                     Tile tile = tiles[(int)mapData[x, y]];
-                    tilemap.SetTile(new Vector3Int(x, -y, 0), tile);
+                    tilemap.SetTile(new Vector3Int(x, y, 0), tile);
                 }
             }
         }

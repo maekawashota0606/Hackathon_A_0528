@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
+
 public class InputProvider : IInput
 {
     bool IInput.GetUp()
@@ -19,5 +17,15 @@ public class InputProvider : IInput
     bool IInput.GetDown()
     {
         return Input.GetButtonDown("Down");
+    }
+
+    bool IInput.GetAction()
+    {
+        return Input.GetButtonDown("Action");
+    }
+
+    bool IInput.GetAttack()
+    {
+        return Input.GetButtonDown("Attack");
     }
 }
