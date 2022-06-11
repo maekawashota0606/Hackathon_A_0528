@@ -168,6 +168,7 @@ public class Player : Actor
     private void LevelUp()
     {
         _level++;
+        MaskController.Instance.ChangeView(_level);
         UIManager.Instance.SetLevelText(_level);
     }
 

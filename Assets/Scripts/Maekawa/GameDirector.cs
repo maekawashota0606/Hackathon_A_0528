@@ -80,6 +80,7 @@ public class GameDirector : SingletonMonoBehaviour<GameDirector>
     {
         _player = GameObject.FindWithTag(_PLAYERS_TAG).GetComponent<Player>();
         _player.Init();
+        MaskController.Instance.Init();
         UIManager.Instance.SetLevelText(_player.GetLevel());
         UIManager.Instance.SetHPText(_player.GetHP(), _player.GetMaxHP());
     }
