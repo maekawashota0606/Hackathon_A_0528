@@ -37,8 +37,6 @@ public class Player : Actor
         {
             if (UseStairs())
                 return;
-            else
-                GetItem();
         }
 
         IActor.Dir dir = IActor.Dir.None;
@@ -71,7 +69,16 @@ public class Player : Actor
         {
             if(Move(dir))
             {
-                //
+                ItemBase item = GameDirector.Instance.GetItem(GetPlayerPos());
+                if (item != null)
+                {
+                    if(item.Effect())
+                    {
+                        GameDirector.Instance.DeleteItem(item);
+                    }
+                }
+
+                GameDirector.Instance.SetIsMovedPleyer(true);
             }
         }
 
@@ -80,7 +87,7 @@ public class Player : Actor
         {
             if(Attack(dir))
             {
-                //
+                GameDirector.Instance.SetIsMovedPleyer(true);
             }
         }
     }
@@ -122,6 +129,18 @@ public class Player : Actor
         UIManager.Instance.SetHPText(_HP, _maxHP);
     }
 
+    public bool Heal(int heal)
+    {
+        if (_HP == _maxHP)
+            return false;
+
+        _HP += heal;
+        if (_maxHP <= _HP)
+            _HP = _maxHP;
+        UIManager.Instance.SetHPText(_HP, _maxHP);
+
+        return true;
+    }
     public int GetHP()
     {
         return _HP;
@@ -137,9 +156,9 @@ public class Player : Actor
         _EXP += exp;
         while(true)
         {
-            if (100 <= exp)
+            if (100 <= _EXP)
             {
-                exp -= 100;
+                _EXP -= 100;
                 LevelUp();
             }
             else break;
@@ -181,10 +200,5 @@ public class Player : Actor
         }
         else
             return false;
-    }
-
-    private void GetItem()
-    {
-
     }
 }

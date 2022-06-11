@@ -41,7 +41,7 @@ public class Enemy : Actor
             {
                 value = v;
                 SetPosition(deltaPos[i]);
-                Debug.Log("Move");
+                //Debug.Log("Move");
             }
         }
     }
@@ -74,7 +74,6 @@ public class Enemy : Actor
         {
             GameDirector.Instance.GetPlayer().AddEXP(_exp);
             GameDirector.Instance.DeleteEnemy(this);
-            Destroy(gameObject);
         }    
     }
 

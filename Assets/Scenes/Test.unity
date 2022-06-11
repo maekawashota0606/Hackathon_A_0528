@@ -638,7 +638,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: fa84b446afec6cc4e88418c0e27f235e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1044,6 +1044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 4910347111003970905, guid: 9c4f62a4fff1b514286e24a7a151c342, type: 3}
+  _itemPrefab: {fileID: 3631662760463343006, guid: 8c26fdfc838374e44b50ae9f5966db48, type: 3}
 --- !u!4 &1578157397
 Transform:
   m_ObjectHideFlags: 0

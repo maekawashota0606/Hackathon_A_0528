@@ -6,6 +6,8 @@ public class GameDirector : SingletonMonoBehaviour<GameDirector>
 {
     [SerializeField]
     private GameObject _enemyPrefab = null;
+    [SerializeField]
+    private GameObject _itemPrefab = null;
     private const int _MAX_FLOOR = 5;
     private const string _PLAYERS_TAG = "Player";
     public const int WIDTH = 99;
@@ -15,6 +17,7 @@ public class GameDirector : SingletonMonoBehaviour<GameDirector>
     private List<ItemBase> _items = new List<ItemBase>();
     private int _floor = 0;
     private bool _isGameOver = false;
+    private bool _isMovedPlayer = false;
 
     private void Start()
     {
@@ -27,7 +30,25 @@ public class GameDirector : SingletonMonoBehaviour<GameDirector>
         if (_isGameOver)
             return;
 
-        _player.PlayerUpdate();
+        if (_isMovedPlayer)
+            EnemiesMove();
+        else
+            _player.PlayerUpdate();
+    }
+
+    private void EnemiesMove()
+    {
+        Debug.Log("EnemiesTurn");
+        _isMovedPlayer = false;
+        foreach(Enemy enemy in _floorEnemies)
+        {
+            enemy.Action();
+        }
+    }
+
+    public void SetIsMovedPleyer(bool isMoved)
+    {
+        _isMovedPlayer = isMoved;
     }
 
     public Player GetPlayer()
@@ -41,6 +62,16 @@ public class GameDirector : SingletonMonoBehaviour<GameDirector>
         {
             if (enemy.GetPosition() == pos)
                 return enemy;
+        }
+        return null;
+    }
+
+    public ItemBase GetItem(Vector2Int pos)
+    {
+        foreach(ItemBase item in _items)
+        {
+            if (item.GetPosition() == pos)
+                return item;
         }
         return null;
     }
@@ -63,7 +94,7 @@ public class GameDirector : SingletonMonoBehaviour<GameDirector>
 
         Vector2Int pos = new Vector2Int();
 
-        while(true)
+        while (true)
         {
             pos.x = Random.Range(0, WIDTH);
             pos.y = Random.Range(0, HEIGHT);
@@ -74,17 +105,17 @@ public class GameDirector : SingletonMonoBehaviour<GameDirector>
         }
 
         int enemyNum = 5;
-        for(int i = 0; i < _floorEnemies.Count; i++)
+        for (int i = 0; i < _floorEnemies.Count; i++)
         {
             Destroy(_floorEnemies[i].gameObject);
         }
         _floorEnemies.Clear();
 
-        for(int i = 0; i < enemyNum; i++)
+        for (int i = 0; i < enemyNum; i++)
         {
             Enemy enemy = Instantiate(_enemyPrefab).GetComponent<Enemy>();
 
-            while(true)
+            while (true)
             {
                 pos.x = Random.Range(0, WIDTH);
                 pos.y = Random.Range(0, HEIGHT);
@@ -118,11 +149,43 @@ public class GameDirector : SingletonMonoBehaviour<GameDirector>
                 break;
             }
         }
+
+
+        int itemNum = 5;
+        for (int i = 0; i < _items.Count; i++)
+        {
+            Destroy(_items[i].gameObject);
+        }
+        _items.Clear();
+
+        for (int i = 0; i < itemNum; i++)
+        {
+            ItemBase item = Instantiate(_itemPrefab).GetComponent<ItemBase>();
+
+            while (true)
+            {
+                pos.x = Random.Range(0, WIDTH);
+                pos.y = Random.Range(0, HEIGHT);
+
+                if (IsHItPlayer(pos) || IsHitItems(pos))
+                    continue;
+
+                if (RandomDungeonWithBluePrint.Map.Instance.GetTileTipe(pos) == RandomDungeonWithBluePrint.Map.TileType.Floor)
+                {
+                    item.SetPosition(pos);
+                    _items.Add(item);
+                    break;
+                }
+            }
+        }
     }
 
     public void NextFloor()
     {
-        FloorInit();
+        if (_MAX_FLOOR < _floor)
+            Debug.Log("Clear");
+        else
+            FloorInit();
     }
 
     public bool IsHItPlayer(Vector2Int pos)
@@ -145,12 +208,16 @@ public class GameDirector : SingletonMonoBehaviour<GameDirector>
             if (enemy.GetPosition() == pos)
                 return true;
         }
-
         return false;
     }
 
     public bool IsHitItems(Vector2Int pos)
     {
+        foreach(ItemBase item in _items)
+        {
+            if (item.GetPosition() == pos)
+                return true;
+        }
         return false;
     }
 
@@ -163,8 +230,13 @@ public class GameDirector : SingletonMonoBehaviour<GameDirector>
 
     public void DeleteEnemy(Enemy enemy)
     {
-        Debug.Log(_floorEnemies.Count);
         _floorEnemies.Remove(enemy);
-        Debug.Log(_floorEnemies.Count);
+        Destroy(enemy.gameObject);
+    }
+
+    public void DeleteItem(ItemBase item)
+    {
+        _items.Remove(item);
+        Destroy(item.gameObject);
     }
 }
