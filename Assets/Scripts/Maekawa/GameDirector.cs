@@ -8,6 +8,10 @@ public class GameDirector : SingletonMonoBehaviour<GameDirector>
     private GameObject _enemyPrefab = null;
     [SerializeField]
     private GameObject _itemPrefab = null;
+    [SerializeField]
+    private GameObject _rootEnemies = null;
+    [SerializeField]
+    private GameObject _rootItems = null;
     private const int _MAX_FLOOR = 5;
     private const string _PLAYERS_TAG = "Player";
     public const int WIDTH = 99;
@@ -115,7 +119,7 @@ public class GameDirector : SingletonMonoBehaviour<GameDirector>
         for (int i = 0; i < enemyNum; i++)
         {
             Enemy enemy = Instantiate(_enemyPrefab).GetComponent<Enemy>();
-
+            enemy.transform.SetParent(_rootEnemies.transform);
             while (true)
             {
                 pos.x = Random.Range(0, WIDTH);
@@ -162,6 +166,7 @@ public class GameDirector : SingletonMonoBehaviour<GameDirector>
         for (int i = 0; i < itemNum; i++)
         {
             ItemBase item = Instantiate(_itemPrefab).GetComponent<ItemBase>();
+            item.transform.SetParent(_rootItems.transform);
 
             while (true)
             {
