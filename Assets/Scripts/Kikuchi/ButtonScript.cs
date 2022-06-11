@@ -18,6 +18,6 @@ public class ButtonScript : MonoBehaviour
 
     public void OnclickTitleButton()
     {
-        SceneController.Instance.sceneChange("PreviewScene");
+        SceneController.Instance.sceneChange("MainGame");
     }
 }

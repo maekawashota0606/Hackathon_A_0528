@@ -225,6 +225,7 @@ public class GameDirector : SingletonMonoBehaviour<GameDirector>
     {
         //
         _isGameOver = true;
+        SceneController.Instance.sceneChange("TitleScene");
         Debug.Log("GameOver");
     }
 
